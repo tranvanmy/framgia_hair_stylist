@@ -7,22 +7,22 @@
 <div class="content-wrapper" id="manager_servece">
     <section class="content-header">
         <h1>
-            {{ _('Service') }}
+            {{ __('Service') }}
         </h1>
         <ol class="breadcrumb">
             <li>
                 <a href="#">
                     <i class="fa fa-dashboard"></i>
-                    {{ _('Home') }}
+                    {{ __('Home') }}
                 </a>
             </li>
             <li>
                 <a href="#">
-                    {{ _('Manager') }}
+                    {{ __('Manager') }}
                 </a>
             </li>
             <li class="active">
-                {{ _('Service') }}
+                {{ __('Service') }}
             </li>
         </ol>
     </section>
@@ -41,7 +41,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{ _('ID') }}</th>
+                                    <th>{{ __('ID') }}</th>
                                     <th>{{ __('admin.Name') }}</th>
                                     <th>{{ __('admin.Short_description') }}</th>
                                     <th>{{ __('admin.Description') }}</th>
