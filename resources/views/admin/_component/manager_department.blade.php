@@ -4,10 +4,10 @@
 @endsection
 
 @section('content')
-<div class="content-wrapper" id="manager_servece">
+<div class="content-wrapper" id="manager_department">
     <section class="content-header">
         <h1>
-            {{ __('Customer') }}
+            {{ __('Deparment') }}
         </h1>
         <ol class="breadcrumb">
             <li>
@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="active">
-                {{ __('Customer') }}
+                {{ __('Deparment') }}
             </li>
         </ol>
     </section>
@@ -31,10 +31,10 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">{{ __('Manager Customer') }}</h3>
+                        <h3 class="box-title">{{ __('Manager Deparment') }}</h3>
                         <button class="col-md-offset-1 btn btn-success" v-on:click="addItem">
                             <i class="fa fa-plus" aria-hidden="true"></i>
-                            {{ __('Create Customer') }}
+                            {{ __('Create Deparment') }}
                         </button>
                     </div>
                     <div class="box-body over-flow-edit">
@@ -43,16 +43,12 @@
                                 <tr>
                                     <th>{{ __('ID') }}</th>
                                     <th>{{ __('Name') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Phone') }}</th>
-                                    <th>{{ __('Permision') }}</th>
-                                    <th>{{ __('admin.Avg_rate') }}</th>
-                                    <th>{{ __('admin.Total_rate') }}</th>
+                                    <th>{{ __('Address') }}</th>
                                     <th>{{ __('admin.Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in items">
+                                {{-- <tr v-for="item in items">
                                     <td>@{{ item.id }}</td>
                                     <td>@{{ item.name }}</td>
                                     <td>@{{ item.short_description }}</td>
@@ -64,7 +60,7 @@
                                         <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                     </td>
-                                </tr>
+                                </tr> --}}
                             </tbody>
                         </table>
                     </div>
@@ -77,7 +73,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Customer') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Service') }}</h4>
                 </div>
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
@@ -85,28 +81,10 @@
                             <label for="name">{{ __('Name') }}</label>
                                 <span class="text-danger">(*)</span>
                                     <input type="text" name="name" class="form-control" v-model="newItem.name"/>
-                                    <div v-if="formErrors.length == 2">
-                                        <span v-if="formErrors['0']" class="error text-danger">
-                                            @{{ formErrors['0'] }}
-                                        </span>
-                                    </div>
-                                    <br>
-                            <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="newItem.short_description"/>
-                            <label for="name">{{ __('admin.Description') }}</label>
+                            <label for="name">{{ __('Address') }}</label>
+                            <span class="text-danger">(*)</span>
                                 <textarea type="text" name="description" class="form-control" v-model="newItem.description">
                                 </textarea>
-                            <label for="name">{{ __('Price') }}</label>
-                                <span class="text-danger">(*)</span>
-                                <input type="number" name="price" class="form-control" v-model="newItem.price"/>
-                                <div v-if="formErrors.length == 1">
-                                    <span v-if="formErrors['0']" class="error text-danger">
-                                        @{{ formErrors['0'] }}
-                                    </span>
-                                </div>
-                                <span v-if="formErrors['1']" class="error text-danger">
-                                    @{{ formErrors['1'] }}
-                                </span>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
@@ -123,7 +101,7 @@
         </div>
     </div>
      <!-- comfirm delete item -->
-     <div class="modal fade" id="delete-item" tabindex="-1" role="dialog" aria-labelledby="Heading" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="delete-item" tabindex="-1" role="dialog" aria-labelledby="Heading" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,10 +116,10 @@
                 </div>
                 <div class="modal-footer ">
                     <a href="javascript:void(0)" v-on:click="delItem(deleteItem.id)" class="btn btn-danger">
-                        <span class="glyphicon glyphicon-ok-sign"></span> {{ trans('admin.yes') }}
+                        <span class="glyphicon glyphicon-ok-sign"></span> {{ __('Yes') }}
                     </a>
                     <button type="button" class="btn btn-success" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span> {{ trans('admin.no') }}
+                        <span class="glyphicon glyphicon-remove"></span> {{ __('No') }}
                     </button>
                 </div>
             </div>
@@ -157,22 +135,18 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="updateService(fillItem.id)">
-                        <div class="form-group">
+                       <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
-                                <span class="text-danger">(*)</span>
-                                    <input type="text" name="name" class="form-control" v-model="fillItem.name"/>
-                            <label for="name">{{ __('admin.Short_description') }}</label>
-                                <input type="text" name="short_description" class="form-control" v-model="fillItem.short_description"/>
-                            <label for="name">{{ __('admin.Description') }}</label>
-                                <textarea type="text" name="description" class="form-control" v-model="fillItem.description">
-                                </textarea>
-                            <label for="name">{{ __('Price') }}</label>
-                                <span class="text-danger">(*)</span>
-                                <input type="number" name="price" class="form-control" v-model="fillItem.price"/>
+                            <span class="text-danger">(*)</span>
+                            <input type="text" name="name" class="form-control" v-model="newItem.name"/>
+                            <label for="name">{{ __('Address') }}</label>
+                            <span class="text-danger">(*)</span>
+                            <textarea type="text" name="description" class="form-control" v-model="newItem.description">
+                            </textarea>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">
-                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Update') }}
+                                <i class="fa fa-plus" aria-hidden="true"></i> {{ __('Create') }}
                             </button>
                             <button class="btn btn-default" data-dismiss="modal">
                                 <i class="fa fa-external-link-square" aria-hidden="true"></i>
@@ -188,5 +162,5 @@
 @endsection
 
 @section('script')
-    {{ Html::script('js/admin/manage_service.js') }}
+    {{ Html::script('js/admin/manager_department.js') }}
 @endsection
