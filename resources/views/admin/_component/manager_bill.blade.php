@@ -80,17 +80,19 @@
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="form-group">
-                            <label for="name">{{ __('Select Customer') }}</label>
+                            {{-- <label for="name">{{ __('Select Customer') }}</label>
                             <select  class="form-control" id="sel1" v-on:change="selectUser">
                                 <option value="0">{{ __('Select User') }}</option>
                                 <option v-bind:value="user.id " v-for="user in items">@{{ user.name }}</option>
-                            </select>
+                            </select> --}}
                             <br>
-                            @{{users.name}}
                             <label for="name">{{ __('Name Customer') }}</label>
-                            <input type="text" name="short_description" class="form-control" v-model="users.name"/>
+                            <input type="text" name="short_description" class="form-control" v-model="newUser.name"/>
                             <label for="name">{{ __('Phone Customer') }}</label>
-                            <input type="text" name="short_description" class="form-control" v-model="users.phone"/>
+                            <span class="text-danger">
+                                @{{formErrors.phone}}
+                            </span>
+                            <input type="text" name="phone" class="form-control" v-on:keyup="keyPhone" v-model="newItem.phone"/>
                             <label for="name" class="text-center">
                                 <p class="text-center">{{ __('Infor Booking') }}</p>
                             </label>
@@ -104,7 +106,7 @@
                          </div>
                      </div>
                      <hr>
-                     <button class="btn btn_success">{{__('Add Service') }}</button>
+                     <button class="btn btn_success" v-on:click="addService">{{__('Add Service') }}</button>
                      <hr>
                     <div class="form-group col-md-12">
                        <div class="well">
@@ -120,8 +122,26 @@
                             <span class="">Price</span>
                             <input type="text" name="short_description" class="form-control"/>
                             <br>
+                        </div>
                     </div>
-                    </div>
+                        <span>Service List:</span>
+                        <div class="well" id ="list_service">
+                            <span class="">Service</span>
+                            <select  class="form-control" id="sel1" v-on:change="">
+                                <option value="">{{ __('Select Service') }}</option>
+                            </select>
+                            <br>
+                            <span class="">Stylist</span>
+                            <select  class="form-control" id="sel1" v-on:change="">
+                                <option value="">{{ __('Select Stylist') }}</option>
+                            </select>
+                            <span class="">Price</span>
+                            <input type="text" name="short_description" class="form-control"/>
+                            <br>
+                            <button class="btn btn-success">{{ __('Edit Service') }}</button>
+                            <button class="btn btn-danger">{{ __('Delete Service') }}</button>
+                        </div>
+                        <br>
                     <span>Total:</span>
                 <hr>
                 <div class="form-group">
@@ -138,8 +158,6 @@
     </div>
 </div>
 </div>
-
-
 <div class="modal fade" id="showBill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

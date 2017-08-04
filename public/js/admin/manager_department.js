@@ -17,36 +17,10 @@ var manager_department = new Vue({
         offset: 4,
         formErrors: {},
         formErrorsUpdate: {},
-        newItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
-        fillItem: {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
+        newItem: {'id': '', 'department_name': '', 'department_address': '' },
+        fillItem: {'id': '', 'department_name': '', 'department_address': ''},
         deleteItem: {'name':'','id':''}
     },
-
-    computed: {
-        isActived: function () {
-            return this.pagination.current_page;
-        },
-        pagesNumber: function () {
-            if (!this.pagination.to) {
-                return [];
-            }
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-            var to = from + (this.offset * 2);
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        }
-    },
-    
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
@@ -55,7 +29,7 @@ var manager_department = new Vue({
 
     methods: {
         showInfor: function(page) {
-            axios.get('/api/v0/service').then(response => {
+            axios.get('/api/v0/department').then(response => {
                 console.log(response.data.data);
                 this.$set(this, 'items', response.data.data);
             })
@@ -67,43 +41,36 @@ var manager_department = new Vue({
             
         createItem: function(){
             var self = this;
-            var input = this.newItem;
-            input.avg_rate = 0;
-            input.total_rate = 0;
+
             var authOptions = {
-                    method: 'POST',
-                    url: '/api/v0/service',
-                    params: input,
-                    headers: {
-                        'Authorization': "Bearer " + this.token.access_token,
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    json: true
-                }
+                method: 'POST',
+                url: '/api/v0/department',
+                params: this.newItem,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
 
             axios(authOptions).then((response) => {
-                this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
-                this.formErrors = '';
+                for (key in response.data.message) {
+                    toastr.error(response.data.message[key], '', {timeOut: 5000});
+                }
                 $("#create-item").modal('hide');
-                    toastr.success('Create Service Success', 'Success', {timeOut: 5000});
-                    this.changePage(this.pagination.current_page);
+                this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        console.log(self.formErrors);
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                self.formErrors = error.response.data.message;
+                for (key in self.formErrors) {
+                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                }    
             });
         },
 
         edit_Service: function(item) {
-                this.fillItem.name = item.name;
-                this.fillItem.short_description = item.short_description;
-                this.fillItem.description = item.description;
-                this.fillItem.price = item.price;
                 this.fillItem.id = item.id;
+                this.fillItem.department_name = item.name;
+                this.fillItem.department_address = item.address;
             $('#edit_Service').modal('show');
         },
 
@@ -112,7 +79,7 @@ var manager_department = new Vue({
             var self = this;
             var authOptions = {
                     method: 'PUT',
-                    url: '/api/v0/service/' + id,
+                    url: '/api/v0/department/' + id,
                     params: input,
                     headers: {
                         'Authorization': "Bearer " + this.token.access_token,
@@ -122,19 +89,17 @@ var manager_department = new Vue({
                 }
 
             axios(authOptions).then((response) => {
-                this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': ''},
+                this.newItem = {'id': '', 'department_name': '', 'department_address': ''},
                 this.formErrors = '';
                 $("#edit_Service").modal('hide');
                     toastr.success('Update Service Success', 'Success', {timeOut: 5000});
                     this.showInfor(this.pagination.current_page);
                     this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                self.formErrors = error.response.data.message;
+                for (key in self.formErrors) {
+                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                }    
             });
         },
 

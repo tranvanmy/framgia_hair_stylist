@@ -7,15 +7,18 @@ var Manager_bill = new Vue({
         users: {},
         token: {},
         items: [],
-        users: {'name': ''},
-        newItem: {},
+        users: {'name': '', 'phone': ''},
+        newItem: {'phone': ''},
+        newUser: {'name': ''},
         params: {},
+        formErrors: {'phone': ''},
     },
     mounted : function(){
         this.users = Vue.ls.get('user', {});
         this.token = Vue.ls.get('token', {});
         this.showUser();
         this.users = '';
+        $('#list_service').hide();
     },
 
     methods: {
@@ -41,6 +44,9 @@ var Manager_bill = new Vue({
                 }).catch((error) => {
             });
         },
+        addService: function(){
+            $('#list_service').show();
+        },
         selectUser: function(event){
             var value = event.target.value;
             var authOptions = {
@@ -56,6 +62,26 @@ var Manager_bill = new Vue({
                         this.$set(this, 'users', response.data.data);
                         console.log(this.users[0].name)
 
+                }).catch((error) => {
+            });
+        },
+        keyPhone: function(event){
+            var input = this.newItem;
+            var self = this;
+            var authOptions = {
+                method: 'GET',
+                url: '/api/v0/get_last_booking_by_phone',
+                params: this.newItem,
+                headers: {
+                    'Authorization': "Bearer " + this.token.access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                json: true
+            }
+            axios(authOptions).then(response => {
+                    this.newUser = response.data;
+                    // console.log(this.newUser.data.name);
+                    this.formErrors.phone = response.data.message;
                 }).catch((error) => {
             });
         },

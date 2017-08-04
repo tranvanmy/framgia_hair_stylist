@@ -84,17 +84,18 @@ var manage_service = new Vue({
             axios(authOptions).then((response) => {
                 this.newItem = {'id': '', 'name': '', 'short_description': '', 'description': '', 'price': '', 'avg_rate': '', 'total_rate': ''},
                 this.formErrors = '';
+
+                self.formErrors = response.data.message;
+                for (key in self.formErrors) {
+                    toastr.success(self.formErrors[key], '', {timeOut: 5000});
+                }   
                 $("#create-item").modal('hide');
-                    toastr.success('Create Service Success', 'Success', {timeOut: 5000});
-                    this.changePage(this.pagination.current_page);
+                this.changePage(this.pagination.current_page);
             }).catch((error) => {
-                    if (error.response.status == 403) {
-                        self.formErrors = error.response.data.message;
-                        console.log(self.formErrors);
-                        for (key in self.formErrors) {
-                            toastr.error(self.formErrors[key], '', {timeOut: 10000});
-                        }    
-                    }
+                self.formErrors = error.response.data.message;
+                for (key in self.formErrors) {
+                    toastr.error(self.formErrors[key], '', {timeOut: 10000});
+                }    
             });
         },
 

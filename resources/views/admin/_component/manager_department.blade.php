@@ -48,19 +48,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- <tr v-for="item in items">
+                                <tr v-for="item in items">
                                     <td>@{{ item.id }}</td>
                                     <td>@{{ item.name }}</td>
-                                    <td>@{{ item.short_description }}</td>
-                                    <td>@{{ item.description }}</td>
-                                    <td>@{{ item.price }}</td>
-                                    <td>@{{ item.avg_rate }}</td>
-                                    <td>@{{ item.total_rate }}</td>
+                                    <td>@{{ item.address }}</td>
                                     <td>
                                         <a href="javascript:void(0)" v-on:click="edit_Service(item)"><i class="fa fa-fw  fa-eyedropper get-color-icon-edit" ></i></a>
                                         <a href="javascript:void(0)" v-on:click="comfirmDeleteItem(item)"><i class="fa fa-fw  fa-close get-color-icon-delete" ></i></a>
                                     </td>
-                                </tr> --}}
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -73,17 +69,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Service') }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ __('Create Deparment') }}</h4>
                 </div>
                 <div class="modal-body">
                     <form method="POST" enctype="multipart/form-data" v-on:submit.prevent="createItem">
                         <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
                                 <span class="text-danger">(*)</span>
-                                    <input type="text" name="name" class="form-control" v-model="newItem.name"/>
+                                    <input type="text" class="form-control" v-model="newItem.department_name"/>
                             <label for="name">{{ __('Address') }}</label>
                             <span class="text-danger">(*)</span>
-                                <textarea type="text" name="description" class="form-control" v-model="newItem.description">
+                                <textarea type="text" class="form-control" v-model="newItem.department_address">
                                 </textarea>
                         </div>
                         <div class="form-group">
@@ -138,10 +134,10 @@
                        <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
                             <span class="text-danger">(*)</span>
-                            <input type="text" name="name" class="form-control" v-model="newItem.name"/>
+                            <input type="text" name="name" class="form-control" v-model="fillItem.department_name"/>
                             <label for="name">{{ __('Address') }}</label>
                             <span class="text-danger">(*)</span>
-                            <textarea type="text" name="description" class="form-control" v-model="newItem.description">
+                            <textarea type="text" name="description" class="form-control" v-model="fillItem.department_address">
                             </textarea>
                         </div>
                         <div class="form-group">
