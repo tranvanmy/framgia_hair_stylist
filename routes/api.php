@@ -30,10 +30,13 @@ Route::group(['prefix' => 'v0', 'namespace' => 'Api'], function() {
 
     Route::get('get-bill-by-customer-id', 'BillController@getBillByCustomerId');
 
-    Route::post('department-create', 'DepartmentsController@createDepartment');
+    Route::get('department-create', 'DepartmentsController@createDepartment');
+    Route::get('department-edit/{id}', 'DepartmentsController@editDepartment');
+
     Route::get('filter-order-booking', 'OrderBookingController@filterBooking');
 
-    Route::get('report-bill', 'BillController@filterBill');
+    Route::get('report-sales', 'ReportController@reportSales');
+    Route::get('report-bill', 'ReportController@reportBills');
 
     Route::get('get-render-by-depart-stylist', 'RenderBookingController@getRenderBooking');
     Route::post('register', 'AuthController@register');

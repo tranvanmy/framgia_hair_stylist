@@ -35,15 +35,15 @@ class OrderBookingController extends Controller
     public function getBookingbyId($bookingId)
     {
         $response = Helper::apiFormat();
-        $with = ['getBookingRender', 'getStylist'];
 
-        
-
-        $booking = $this->orderBooking->getBookingByBookingId($bookingId, $with);
+        $booking = $this->orderBooking->getBookingByBookingId($bookingId);
         if($booking)
         {
-            $renderBooking = $this->renderBooking->find($booking->render_booking_id, ['OrderBooking']);
+            $renderBooking = $this->renderBooking->find($booking->render_booking_id);
+            
+            $booking->render_booking = $renderBooking;
             $booking->department = $this->department->find($renderBooking->department_id);
+            $booking->stylist =  $this->user->find($booking->stylist_id);
         }
         
         if (!$booking)
@@ -104,13 +104,13 @@ class OrderBookingController extends Controller
         }
 
         $bookingChecked = $this->orderBooking->checkLastBookingByPhone($request->phone);
-
+        // dd($bookingChecked);
         if($bookingChecked) {
             $timeUserChosen = $this->renderBooking->find($bookingChecked->render_booking_id);
 
             $difference_time = strtotime($timeUserChosen->day . ' ' . $timeUserChosen->time_start)- time();
 
-            if($difference_time > 0) {
+            if($difference_time < 0) {
                 $bookingChecked->fill($request->all());
                 $bookingChecked->stylist_id = $stylist_id;
                 $bookingChecked->user_id = $user_id;
@@ -130,7 +130,7 @@ class OrderBookingController extends Controller
 
                 $dataResponse = $this->orderBooking->find($order->id);
             }
-            $dataResponse->render_booking = $timeUserChosen;
+            $dataResponse->render_booking = $this->renderBooking->find($request->render_booking_id);
 
         } else {
             $order = $this->orderBooking->create([
@@ -146,6 +146,7 @@ class OrderBookingController extends Controller
         }
         $dataResponse->department = $this->department->find($renderBooking->department_id);
         $dataResponse->stylist = $stylist_name = $this->user->find($stylist_id);
+        // dd($dataResponse->render_booking->id);
 
         $response['data'] = $dataResponse;
 
