@@ -18,6 +18,7 @@ var manage_service = new Vue({
         offset: 4,
         formErrors: {},
         showDepartments:{},
+        changer_status_booking:{'id': '', 'status': ''},
         formErrorsUpdate: {},
         newItem: {},
         params: {},
@@ -67,7 +68,16 @@ var manage_service = new Vue({
                 $('.list-booking-indicator').addClass('hide');
             });
         },
+        changer_status(item){
+            this.changer_status_booking.status = item.status;
+            this.changer_status_booking.id = item.id;
+            $('#update_status').modal('show');
+            console.log(this.changer_status_booking.status);
+        },
+        update_status: function(id){
 
+            console.log(this.changer_status_booking.status);
+        },
         selectDay: function(event){
             var value = event.target.value;
             this.params.type = value;
