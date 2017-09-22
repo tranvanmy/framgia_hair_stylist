@@ -106,7 +106,6 @@ var manage_service = new Vue({
                 }
             axios(authOptions).then((response) => {
                 this.$set(this, 'showImages', response.data.data);
-                console.log(this.showImages);
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;
@@ -133,7 +132,6 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.$set(this, 'showBills', response.data.data);
-                console.log(response);
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;
@@ -197,7 +195,6 @@ var manage_service = new Vue({
             }).catch((error) => {
                 if (error.response.status == 403) {
                     self.formErrors = error.response.data.message;
-                    console.log(self.formErrors);
                     for (key in self.formErrors) {
                         toastr.error(self.formErrors[key], '', {timeOut: 10000});
                     }    
@@ -263,6 +260,7 @@ var manage_service = new Vue({
 
             axios(authOptions).then((response) => {
                 this.$set(this, 'showBillDetails', response.data.data);
+                console.log(this.showBillDetails);
                 $("#showBill_Detail").modal("show");
                 $("#showUser").modal("hide");
             }).catch((error) => {
